@@ -28,3 +28,11 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Catalog reads go through public `createServerFn`s in `src/lib/catalog.functions.ts` (publishable key, RLS) so pages SSR with loaders + `useSuspenseQuery`.
+- Orders are created only via the `place_order` SECURITY DEFINER database function (called from `src/lib/orders.functions.ts`); it validates input, prices items from the DB and decrements stock atomically — never trust client prices.
+- Cancelling an order restocks via the `orders_restock` trigger; cancelled orders cannot be reactivated.
+- Admin checks use `has_role(uid,'admin')` from `user_roles`; the first signed-up account is auto-assigned admin by the signup trigger.
+- Product images live in the private `product-images` bucket (public buckets are blocked in this workspace); uploads store a long-lived signed URL in `products.image_url`.
+- Checkout payment options and bank details are configured in `src/lib/store-config.ts`.
