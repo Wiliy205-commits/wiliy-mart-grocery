@@ -8,6 +8,13 @@
       "when": 1794972863419,
       "tag": "0000_wiliy_mart_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794974551596,
+      "tag": "0001_restrict_product_images_read",
+      "breakpoints": true
     }
   ]
 }
