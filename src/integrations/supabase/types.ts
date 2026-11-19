@@ -14,6 +14,65 @@ export type Database = {
   }
   public: {
     Tables: {
+      addresses: {
+        Row: {
+          city: string
+          created_at: string
+          district: string
+          full_address: string
+          id: string
+          is_default: boolean
+          label: string
+          notes: string | null
+          phone: string
+          postal_code: string
+          province: string
+          recipient_name: string
+          user_id: string
+          village: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          district: string
+          full_address: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          notes?: string | null
+          phone: string
+          postal_code: string
+          province: string
+          recipient_name: string
+          user_id: string
+          village: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          district?: string
+          full_address?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          notes?: string | null
+          phone?: string
+          postal_code?: string
+          province?: string
+          recipient_name?: string
+          user_id?: string
+          village?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           created_at: string
@@ -198,19 +257,43 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
+          bio: string | null
+          birth_date: string | null
           created_at: string
+          email: string | null
           full_name: string | null
+          gender: string | null
           id: string
+          phone: string | null
+          updated_at: string
+          username: string | null
         }
         Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          birth_date?: string | null
           created_at?: string
+          email?: string | null
           full_name?: string | null
+          gender?: string | null
           id: string
+          phone?: string | null
+          updated_at?: string
+          username?: string | null
         }
         Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          birth_date?: string | null
           created_at?: string
+          email?: string | null
           full_name?: string | null
+          gender?: string | null
           id?: string
+          phone?: string | null
+          updated_at?: string
+          username?: string | null
         }
         Relationships: []
       }
@@ -244,6 +327,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      login_email_for_username: { Args: { _username: string }; Returns: string }
       place_order: {
         Args: {
           _address: string
@@ -255,6 +339,7 @@ export type Database = {
         }
         Returns: Json
       }
+      set_default_address: { Args: { _id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"
