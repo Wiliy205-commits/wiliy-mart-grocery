@@ -10,7 +10,7 @@ async function checkAdmin(userId: string) {
   return data === true;
 }
 
-export function AuthProvider({ children, onIdentityChange }: { children: ReactNode; onIdentityChange?: () => void }) {
+export function AuthProvider({ children, onIdentityChange }: { children: ReactNode; onIdentityChange?: (event: string) => void }) {
   const [state, setState] = useState<AuthState>({ user: null, isAdmin: false, loading: true });
 
   useEffect(() => {
@@ -19,12 +19,16 @@ export function AuthProvider({ children, onIdentityChange }: { children: ReactNo
       const isAdmin = user ? await checkAdmin(user.id) : false;
       if (active) setState({ user, isAdmin, loading: false });
     };
-    supabase.auth.getUser().then(({ data }) => sync(data.user ?? null));
+    if (localStorage.getItem("wiliy-session-only") === "1" && sessionStorage.getItem("wiliy-session-only") !== "1") {
+      void supabase.auth.signOut().then(() => { localStorage.removeItem("wiliy-session-only"); void sync(null); });
+    } else {
+      supabase.auth.getUser().then(({ data }) => sync(data.user ?? null));
+    }
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       // Defer to avoid calling Supabase inside the auth callback.
       setTimeout(() => sync(session?.user ?? null), 0);
-      onIdentityChange?.();
+      onIdentityChange?.(event);
     });
     return () => {
       active = false;

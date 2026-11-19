@@ -1,0 +1,4 @@
+import { supabase } from '@/integrations/supabase/client';
+import type { QueryClient } from '@tanstack/react-query';
+export async function clearAccountSession(qc:QueryClient){await qc.cancelQueries();qc.clear();sessionStorage.removeItem('wiliy-last-order');await supabase.auth.signOut();}
+export async function uploadAvatar(file:File,userId:string){if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>2*1024*1024)throw new Error('Gunakan JPG, PNG, atau WebP maksimal 2 MB');const ext=file.type==='image/jpeg'?'jpg':file.type==='image/png'?'png':'webp';const path=`${userId}/profile.${ext}`;const{error}=await supabase.storage.from('avatars').upload(path,file,{upsert:true,contentType:file.type});if(error)throw new Error('Foto gagal diunggah');const{error:save}=await supabase.from('profiles').update({avatar_url:path}).eq('id',userId);if(save)throw new Error('Foto gagal disimpan');}

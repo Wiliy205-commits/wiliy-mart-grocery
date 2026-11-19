@@ -131,9 +131,9 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
-  const onIdentityChange = useCallback(() => {
+  const onIdentityChange = useCallback((event: string) => {
     router.invalidate();
-    queryClient.invalidateQueries();
+    if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
   }, [router, queryClient]);
 
   return (

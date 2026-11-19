@@ -1,0 +1,8 @@
+import { useState } from 'react';
+import { Eye,EyeOff } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+export function PasswordField({id,label,value,onChange,autoComplete='new-password'}:{id:string;label:string;value:string;onChange:(v:string)=>void;autoComplete?:string}){const[show,setShow]=useState(false);return <div className="space-y-2"><Label htmlFor={id}>{label}</Label><div className="relative"><Input id={id} type={show?'text':'password'} value={value} onChange={e=>onChange(e.target.value)} autoComplete={autoComplete} maxLength={128} required className="h-12 pr-12"/><Button type="button" size="icon" variant="ghost" className="absolute right-1 top-1" onClick={()=>setShow(!show)} aria-label={show?`Sembunyikan ${label.toLowerCase()}`:`Tampilkan ${label.toLowerCase()}`} title={show?'Sembunyikan':'Tampilkan'}>{show?<EyeOff/>:<Eye/>}</Button></div></div>;}
+export function Field({id,label,value,onChange,type='text',required=true,maxLength=100}:{id:string;label:string;value:string;onChange:(v:string)=>void;type?:string;required?:boolean;maxLength?:number}){return <div className="space-y-2"><Label htmlFor={id}>{label}</Label><Input className="h-12" id={id} type={type} required={required} maxLength={maxLength} value={value} onChange={e=>onChange(e.target.value)}/></div>;}
+export function FormMessage({message}:{message:string}){return message?<p role="status" className="rounded-lg border border-border bg-secondary/40 p-4 text-sm leading-relaxed">{message}</p>:null;}

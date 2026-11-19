@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { LayoutDashboard, LogIn, LogOut, Menu, Search, ShoppingBag } from "lucide-react";
+import { LayoutDashboard, LogIn, LogOut, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { clearAccountSession } from "@/lib/account-session";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
-import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "./Logo";
 
 const NAV = [
@@ -46,9 +47,9 @@ export function SiteHeader() {
   const navigate = useNavigate();
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    await clearAccountSession(qc);
     setOpen(false);
-    navigate({ to: "/", replace: true });
+    navigate({ to: "/auth", search: {}, replace: true });
   };
 
   return (
