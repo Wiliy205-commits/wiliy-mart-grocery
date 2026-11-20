@@ -41,6 +41,7 @@ function SearchForm({ onDone }: { onDone?: () => void }) {
 }
 
 export function SiteHeader() {
+  const qc = useQueryClient();
   const { count, hydrated } = useCart();
   const { user, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
@@ -73,6 +74,9 @@ export function SiteHeader() {
           <SearchForm />
         </div>
         <div className="ml-auto flex items-center gap-1 md:ml-0">
+          <Button asChild variant="ghost" size="icon" title={user ? "Akun saya" : "Masuk atau daftar"}>
+            {user ? <Link to="/my-account" aria-label="Akun saya"><UserRound /></Link> : <Link to="/account" aria-label="Masuk atau daftar"><UserRound /></Link>}
+          </Button>
           {isAdmin && (
             <Button asChild variant="ghost" size="sm" className="hidden md:inline-flex">
               <Link to="/admin"><LayoutDashboard /> Admin</Link>
@@ -106,6 +110,7 @@ export function SiteHeader() {
               <div className="flex flex-col gap-6 px-4">
                 <SearchForm onDone={() => setOpen(false)} />
                 <nav className="flex flex-col" aria-label="Navigasi seluler">
+                  {user && <Link to="/my-account" onClick={() => setOpen(false)} className="border-b border-border py-4 font-display text-2xl">Akun saya</Link>}
                   {NAV.map((n) => (
                     <Link
                       key={n.to}
@@ -127,7 +132,7 @@ export function SiteHeader() {
                   <Button variant="outline" onClick={signOut}><LogOut /> Keluar</Button>
                 ) : (
                   <Button asChild variant="outline">
-                    <Link to="/auth" search={{}} onClick={() => setOpen(false)}><LogIn /> Masuk Admin</Link>
+                    <Link to="/account" onClick={() => setOpen(false)}><LogIn /> Masuk / Daftar</Link>
                   </Button>
                 )}
               </div>

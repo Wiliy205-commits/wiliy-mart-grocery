@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
@@ -14,6 +14,8 @@ import { checkoutSchema, formatRupiah } from "@/lib/format";
 import { placeOrder } from "@/lib/orders.functions";
 import { PAYMENT_METHODS, type PaymentMethodId } from "@/lib/store-config";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
+import { getAddresses } from "@/lib/account.functions";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -37,6 +39,9 @@ function CheckoutPage() {
   const submitOrder = useServerFn(placeOrder);
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { user } = useAuth();
+  const fetchAddresses = useServerFn(getAddresses);
+  const { data: savedAddresses } = useQuery({ queryKey: ['checkout-addresses', user?.id], queryFn: () => fetchAddresses(), enabled: !!user });
   const methods = PAYMENT_METHODS.filter((m) => m.enabled);
   const [form, setForm] = useState({ customerName: "", whatsapp: "", address: "", notes: "" });
   const [payment, setPayment] = useState<PaymentMethodId>(methods[0]?.id ?? "cod");
@@ -84,6 +89,8 @@ function CheckoutPage() {
       clear();
       qc.invalidateQueries({ queryKey: ["products"] });
       qc.invalidateQueries({ queryKey: ["product"] });
+      qc.invalidateQueries({ queryKey: ["my-orders"] });
+      qc.invalidateQueries({ queryKey: ["account-summary"] });
       navigate({ to: "/order-success" });
     } catch {
       toast.error("Pesanan gagal dibuat. Silakan coba lagi.");
@@ -112,6 +119,7 @@ function CheckoutPage() {
         <div className="space-y-8">
           <section className="space-y-5 rounded-3xl bg-card/60 p-6 md:p-8" aria-labelledby="ship-title">
             <h2 id="ship-title" className="text-2xl">Data pengiriman</h2>
+            {savedAddresses && savedAddresses.length > 0 && <div className="space-y-2"><Label htmlFor="saved-address">Alamat tersimpan</Label><select id="saved-address" defaultValue="" className="h-12 w-full rounded-md border border-input bg-card px-3 text-sm" onChange={e => { const a = savedAddresses.find(a => a.id === e.target.value); if (a) setForm({ customerName: a.recipient_name, whatsapp: a.phone, address: `${a.full_address}, ${a.village}, ${a.district}, ${a.city}, ${a.province} ${a.postal_code}`.slice(0,500), notes: a.notes ?? '' }); }}><option value="">Pilih alamat Anda</option>{savedAddresses.map(a => <option key={a.id} value={a.id}>{a.label}{a.is_default ? ' · Utama' : ''} — {a.recipient_name}</option>)}</select></div>}
             {field("customerName", "Nama lengkap", "input", { autoComplete: "name", maxLength: 100 })}
             {field("whatsapp", "Nomor WhatsApp", "input", { type: "tel", inputMode: "tel", autoComplete: "tel", placeholder: "081234567890", maxLength: 20 })}
             {field("address", "Alamat pengiriman", "textarea", { autoComplete: "street-address", placeholder: "Jalan, nomor rumah, RT/RW, kelurahan, kecamatan, kota", maxLength: 500 })}

@@ -33,6 +33,10 @@ use the editor.
 - Catalog reads go through public `createServerFn`s in `src/lib/catalog.functions.ts` (publishable key, RLS) so pages SSR with loaders + `useSuspenseQuery`.
 - Orders are created only via the `place_order` SECURITY DEFINER database function (called from `src/lib/orders.functions.ts`); it validates input, prices items from the DB and decrements stock atomically — never trust client prices.
 - Cancelling an order restocks via the `orders_restock` trigger; cancelled orders cannot be reactivated.
-- Admin checks use `has_role(uid,'admin')` from `user_roles`; the first signed-up account is auto-assigned admin by the signup trigger.
+- Admin checks use `has_role(uid,'admin')` from `user_roles`; signup assigns only the customer (`user`) role to prevent self-escalation, and admin grants require trusted administration.
 - Product images live in the private `product-images` bucket (public buckets are blocked in this workspace); uploads store a long-lived signed URL in `products.image_url`.
 - Checkout payment options and bank details are configured in `src/lib/store-config.ts`.
+- Customer pages live below the managed authenticated layout; private reads and writes use authenticated server functions and explicit owner filters so operational admin access never widens customer history.
+- Username sign-in resolves email only through a service-only RPC inside the password-verifying server function; never expose a public username-to-email lookup.
+- Avatar paths are user-scoped objects in a private bucket; generate temporary display links only for authenticated owners.
+- Checkout validates an optional bearer token before calling `place_order` as the customer, retaining guest checkout without accepting client user IDs.

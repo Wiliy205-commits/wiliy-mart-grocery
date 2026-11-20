@@ -23,12 +23,19 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedMyAccountRouteImport } from './routes/_authenticated/my-account'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
 import { Route as AuthenticatedAdminProductsRouteImport } from './routes/_authenticated/admin.products'
+import { Route as AuthenticatedMyAccountIndexRouteImport } from './routes/_authenticated/my-account.index'
+import { Route as AuthenticatedMyAccountAddressesRouteImport } from './routes/_authenticated/my-account.addresses'
+import { Route as AuthenticatedMyAccountOrdersRouteImport } from './routes/_authenticated/my-account.orders'
+import { Route as AuthenticatedMyAccountProfileRouteImport } from './routes/_authenticated/my-account.profile'
+import { Route as AuthenticatedMyAccountSecurityRouteImport } from './routes/_authenticated/my-account.security'
+import { Route as AuthenticatedMyAccountOrdersIdRouteImport } from './routes/_authenticated/my-account.orders_.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -99,6 +106,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMyAccountRoute = AuthenticatedMyAccountRouteImport.update({
+  id: '/my-account',
+  path: '/my-account',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -132,6 +144,42 @@ const AuthenticatedAdminProductsRoute =
     path: '/products',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedMyAccountIndexRoute =
+  AuthenticatedMyAccountIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMyAccountRoute,
+  } as any)
+const AuthenticatedMyAccountAddressesRoute =
+  AuthenticatedMyAccountAddressesRouteImport.update({
+    id: '/addresses',
+    path: '/addresses',
+    getParentRoute: () => AuthenticatedMyAccountRoute,
+  } as any)
+const AuthenticatedMyAccountOrdersRoute =
+  AuthenticatedMyAccountOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => AuthenticatedMyAccountRoute,
+  } as any)
+const AuthenticatedMyAccountProfileRoute =
+  AuthenticatedMyAccountProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedMyAccountRoute,
+  } as any)
+const AuthenticatedMyAccountSecurityRoute =
+  AuthenticatedMyAccountSecurityRouteImport.update({
+    id: '/security',
+    path: '/security',
+    getParentRoute: () => AuthenticatedMyAccountRoute,
+  } as any)
+const AuthenticatedMyAccountOrdersIdRoute =
+  AuthenticatedMyAccountOrdersIdRouteImport.update({
+    id: '/orders_/$id',
+    path: '/orders/$id',
+    getParentRoute: () => AuthenticatedMyAccountRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -147,12 +195,19 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/my-account': typeof AuthenticatedMyAccountRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/products': typeof AuthenticatedAdminProductsRoute
+  '/my-account/addresses': typeof AuthenticatedMyAccountAddressesRoute
+  '/my-account/orders': typeof AuthenticatedMyAccountOrdersRoute
+  '/my-account/profile': typeof AuthenticatedMyAccountProfileRoute
+  '/my-account/security': typeof AuthenticatedMyAccountSecurityRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/my-account/': typeof AuthenticatedMyAccountIndexRoute
+  '/my-account/orders/$id': typeof AuthenticatedMyAccountOrdersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -172,7 +227,13 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/products': typeof AuthenticatedAdminProductsRoute
+  '/my-account/addresses': typeof AuthenticatedMyAccountAddressesRoute
+  '/my-account/orders': typeof AuthenticatedMyAccountOrdersRoute
+  '/my-account/profile': typeof AuthenticatedMyAccountProfileRoute
+  '/my-account/security': typeof AuthenticatedMyAccountSecurityRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/my-account': typeof AuthenticatedMyAccountIndexRoute
+  '/my-account/orders/$id': typeof AuthenticatedMyAccountOrdersIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -190,12 +251,19 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/my-account': typeof AuthenticatedMyAccountRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/products': typeof AuthenticatedAdminProductsRoute
+  '/_authenticated/my-account/addresses': typeof AuthenticatedMyAccountAddressesRoute
+  '/_authenticated/my-account/orders': typeof AuthenticatedMyAccountOrdersRoute
+  '/_authenticated/my-account/profile': typeof AuthenticatedMyAccountProfileRoute
+  '/_authenticated/my-account/security': typeof AuthenticatedMyAccountSecurityRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/my-account/': typeof AuthenticatedMyAccountIndexRoute
+  '/_authenticated/my-account/orders_/$id': typeof AuthenticatedMyAccountOrdersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -213,12 +281,19 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/admin'
+    | '/my-account'
     | '/products/$slug'
     | '/products/'
     | '/admin/categories'
     | '/admin/orders'
     | '/admin/products'
+    | '/my-account/addresses'
+    | '/my-account/orders'
+    | '/my-account/profile'
+    | '/my-account/security'
     | '/admin/'
+    | '/my-account/'
+    | '/my-account/orders/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -238,7 +313,13 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/orders'
     | '/admin/products'
+    | '/my-account/addresses'
+    | '/my-account/orders'
+    | '/my-account/profile'
+    | '/my-account/security'
     | '/admin'
+    | '/my-account'
+    | '/my-account/orders/$id'
   id:
     | '__root__'
     | '/'
@@ -255,12 +336,19 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/_authenticated/admin'
+    | '/_authenticated/my-account'
     | '/products/$slug'
     | '/products/'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/products'
+    | '/_authenticated/my-account/addresses'
+    | '/_authenticated/my-account/orders'
+    | '/_authenticated/my-account/profile'
+    | '/_authenticated/my-account/security'
     | '/_authenticated/admin/'
+    | '/_authenticated/my-account/'
+    | '/_authenticated/my-account/orders_/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -381,6 +469,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/my-account': {
+      id: '/_authenticated/my-account'
+      path: '/my-account'
+      fullPath: '/my-account'
+      preLoaderRoute: typeof AuthenticatedMyAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/products/': {
       id: '/products/'
       path: '/products'
@@ -423,6 +518,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminProductsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/my-account/': {
+      id: '/_authenticated/my-account/'
+      path: '/'
+      fullPath: '/my-account/'
+      preLoaderRoute: typeof AuthenticatedMyAccountIndexRouteImport
+      parentRoute: typeof AuthenticatedMyAccountRoute
+    }
+    '/_authenticated/my-account/addresses': {
+      id: '/_authenticated/my-account/addresses'
+      path: '/addresses'
+      fullPath: '/my-account/addresses'
+      preLoaderRoute: typeof AuthenticatedMyAccountAddressesRouteImport
+      parentRoute: typeof AuthenticatedMyAccountRoute
+    }
+    '/_authenticated/my-account/orders': {
+      id: '/_authenticated/my-account/orders'
+      path: '/orders'
+      fullPath: '/my-account/orders'
+      preLoaderRoute: typeof AuthenticatedMyAccountOrdersRouteImport
+      parentRoute: typeof AuthenticatedMyAccountRoute
+    }
+    '/_authenticated/my-account/profile': {
+      id: '/_authenticated/my-account/profile'
+      path: '/profile'
+      fullPath: '/my-account/profile'
+      preLoaderRoute: typeof AuthenticatedMyAccountProfileRouteImport
+      parentRoute: typeof AuthenticatedMyAccountRoute
+    }
+    '/_authenticated/my-account/security': {
+      id: '/_authenticated/my-account/security'
+      path: '/security'
+      fullPath: '/my-account/security'
+      preLoaderRoute: typeof AuthenticatedMyAccountSecurityRouteImport
+      parentRoute: typeof AuthenticatedMyAccountRoute
+    }
+    '/_authenticated/my-account/orders_/$id': {
+      id: '/_authenticated/my-account/orders_/$id'
+      path: '/orders/$id'
+      fullPath: '/my-account/orders/$id'
+      preLoaderRoute: typeof AuthenticatedMyAccountOrdersIdRouteImport
+      parentRoute: typeof AuthenticatedMyAccountRoute
+    }
   }
 }
 
@@ -443,12 +580,38 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
 const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
+interface AuthenticatedMyAccountRouteChildren {
+  AuthenticatedMyAccountAddressesRoute: typeof AuthenticatedMyAccountAddressesRoute
+  AuthenticatedMyAccountOrdersRoute: typeof AuthenticatedMyAccountOrdersRoute
+  AuthenticatedMyAccountProfileRoute: typeof AuthenticatedMyAccountProfileRoute
+  AuthenticatedMyAccountSecurityRoute: typeof AuthenticatedMyAccountSecurityRoute
+  AuthenticatedMyAccountIndexRoute: typeof AuthenticatedMyAccountIndexRoute
+  AuthenticatedMyAccountOrdersIdRoute: typeof AuthenticatedMyAccountOrdersIdRoute
+}
+
+const AuthenticatedMyAccountRouteChildren: AuthenticatedMyAccountRouteChildren =
+  {
+    AuthenticatedMyAccountAddressesRoute: AuthenticatedMyAccountAddressesRoute,
+    AuthenticatedMyAccountOrdersRoute: AuthenticatedMyAccountOrdersRoute,
+    AuthenticatedMyAccountProfileRoute: AuthenticatedMyAccountProfileRoute,
+    AuthenticatedMyAccountSecurityRoute: AuthenticatedMyAccountSecurityRoute,
+    AuthenticatedMyAccountIndexRoute: AuthenticatedMyAccountIndexRoute,
+    AuthenticatedMyAccountOrdersIdRoute: AuthenticatedMyAccountOrdersIdRoute,
+  }
+
+const AuthenticatedMyAccountRouteWithChildren =
+  AuthenticatedMyAccountRoute._addFileChildren(
+    AuthenticatedMyAccountRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedMyAccountRoute: typeof AuthenticatedMyAccountRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedMyAccountRoute: AuthenticatedMyAccountRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
