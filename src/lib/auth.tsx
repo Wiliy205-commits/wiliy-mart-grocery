@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { finishPendingAvatar } from "./pending-avatar";
+import { toast } from "sonner";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -16,6 +18,7 @@ export function AuthProvider({ children, onIdentityChange }: { children: ReactNo
   useEffect(() => {
     let active = true;
     const sync = async (user: User | null) => {
+      if (user) { try { await finishPendingAvatar(user.id); } catch { toast.error("Foto belum tersimpan. Unggah kembali melalui Profil saya."); } }
       const isAdmin = user ? await checkAdmin(user.id) : false;
       if (active) setState({ user, isAdmin, loading: false });
     };
@@ -25,6 +28,7 @@ export function AuthProvider({ children, onIdentityChange }: { children: ReactNo
       supabase.auth.getUser().then(({ data }) => sync(data.user ?? null));
     }
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "PASSWORD_RECOVERY") { sessionStorage.setItem("wiliy-recovery", String(Date.now())); setTimeout(() => sync(session?.user ?? null), 0); return; }
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       // Defer to avoid calling Supabase inside the auth callback.
       setTimeout(() => sync(session?.user ?? null), 0);

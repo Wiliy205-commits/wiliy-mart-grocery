@@ -1,10 +1,11 @@
+import { accountHead } from '@/lib/account-schema';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Banknote, Package, ShoppingCart, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { formatRupiah, ORDER_STATUS_LABEL } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/admin/")({ component: Overview });
+export const Route = createFileRoute("/_authenticated/admin/")({ head:()=>accountHead('Ringkasan admin','Ringkasan penjualan dan stok Wiliy Mart.'), component: Overview });
 
 function Overview() {
   const { data, isLoading, error } = useQuery({

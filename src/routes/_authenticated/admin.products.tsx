@@ -1,3 +1,4 @@
+import { accountHead } from '@/lib/account-schema';
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ImagePlus, Loader2, Pencil, Plus, Save, Trash2 } from "lucide-react";
@@ -19,7 +20,7 @@ import type { Tables } from "@/integrations/supabase/types";
 import { formatRupiah, slugify } from "@/lib/format";
 import { StockBadge } from "@/components/site/StockBadge";
 
-export const Route = createFileRoute("/_authenticated/admin/products")({ component: ProductsAdmin });
+export const Route = createFileRoute("/_authenticated/admin/products")({ head:()=>accountHead('Kelola produk','Pengelolaan produk dan stok Wiliy Mart.'), component: ProductsAdmin });
 
 type Row = Tables<"products">;
 type FormState = {

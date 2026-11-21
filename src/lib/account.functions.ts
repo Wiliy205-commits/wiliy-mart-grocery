@@ -43,3 +43,4 @@ export const deleteAccount=createServerFn({method:'POST'}).middleware([requireSu
  if(files?.length){const {error:storageError}=await supabaseAdmin.storage.from('avatars').remove(files.map(f=>`${context.userId}/${f.name}`));if(storageError)throw new Error('Foto gagal dihapus. Coba lagi.');}
  const {error:deleted}=await supabaseAdmin.auth.admin.deleteUser(context.userId);if(deleted)throw new Error('Akun gagal dihapus');return {ok:true};
 });
+export const getCustomers=createServerFn({method:'POST'}).middleware([requireSupabaseAuth]).handler(async({context})=>{const{data:admin,error:roleError}=await context.supabase.rpc('has_role',{_user_id:context.userId,_role:'admin'});if(roleError||!admin)throw new Error('Akses ditolak');const{data,error}=await context.supabase.from('profiles').select('id,full_name,username,email,phone,created_at').order('created_at',{ascending:false});if(error)throw new Error('Pelanggan gagal dimuat');return data;});

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import { LayoutDashboard, Package, ShieldAlert, ShoppingCart, Tags } from "lucide-react";
+import { LayoutDashboard, Package, ShieldAlert, ShoppingCart, Tags, UsersRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -23,6 +23,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 const NAV = [
+  { to: "/admin/customers", label: "Pelanggan", icon: UsersRound },
   { to: "/admin", label: "Ringkasan", icon: LayoutDashboard, exact: true },
   { to: "/admin/orders", label: "Pesanan", icon: ShoppingCart },
   { to: "/admin/products", label: "Produk & Stok", icon: Package },

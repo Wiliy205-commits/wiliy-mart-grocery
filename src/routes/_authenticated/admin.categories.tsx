@@ -1,3 +1,4 @@
+import { accountHead } from '@/lib/account-schema';
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
@@ -16,7 +17,7 @@ import type { Tables } from "@/integrations/supabase/types";
 import { slugify } from "@/lib/format";
 import { CategoryIcon } from "@/components/site/CategoryIcon";
 
-export const Route = createFileRoute("/_authenticated/admin/categories")({ component: CategoriesAdmin });
+export const Route = createFileRoute("/_authenticated/admin/categories")({ head:()=>accountHead('Kelola kategori','Pengelolaan kategori produk Wiliy Mart.'), component: CategoriesAdmin });
 
 type Cat = Tables<"categories">;
 type F = { id?: string; name: string; slug: string; description: string; sort_order: string };

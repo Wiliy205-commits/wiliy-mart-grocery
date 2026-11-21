@@ -1,3 +1,4 @@
+import { accountHead } from '@/lib/account-schema';
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -17,7 +18,7 @@ import { cn } from "@/lib/utils";
 type Status = Database["public"]["Enums"]["order_status"];
 const STATUSES: Status[] = ["pending", "processing", "shipped", "completed", "cancelled"];
 
-export const Route = createFileRoute("/_authenticated/admin/orders")({ component: OrdersAdmin });
+export const Route = createFileRoute("/_authenticated/admin/orders")({ head:()=>accountHead('Kelola pesanan','Pengelolaan pesanan dan pembayaran Wiliy Mart.'), component: OrdersAdmin });
 
 function OrdersAdmin() {
   const qc = useQueryClient();

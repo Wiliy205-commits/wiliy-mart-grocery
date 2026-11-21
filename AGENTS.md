@@ -40,3 +40,6 @@ use the editor.
 - Username sign-in resolves email only through a service-only RPC inside the password-verifying server function; never expose a public username-to-email lookup.
 - Avatar paths are user-scoped objects in a private bucket; generate temporary display links only for authenticated owners.
 - Checkout validates an optional bearer token before calling `place_order` as the customer, retaining guest checkout without accepting client user IDs.
+
+- Registration photo drafts remain local in IndexedDB until verified sign-in; upload only to the authenticated owner folder and expire drafts after one day.
+- Operational customer reads require an explicit admin role check, while customer account functions always retain their owner filters.
