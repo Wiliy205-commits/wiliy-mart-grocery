@@ -20,6 +20,6 @@ describe.skipIf(!tokenA||!tokenB)('customer account access',()=>{
  it('customers cannot change another profile',async()=>{const {data,error}=await b.from('profiles').update({full_name:'Forbidden'}).eq('id',idA).select('id');expect(error).toBeNull();expect(data).toEqual([]);const own=await a.from('profiles').select('full_name').eq('id',idA).single();expect(own.data?.full_name).toBe('Pelanggan Uji');});
  it('customers cannot read another shipping address',async()=>{const {data,error}=await b.from('addresses').select('id').eq('id',addressId);expect(error).toBeNull();expect(data).toEqual([]);});
  it('customers cannot delete another shipping address',async()=>{const {data,error}=await b.from('addresses').delete().eq('id',addressId).select('id');expect(error).toBeNull();expect(data).toEqual([]);const own=await a.from('addresses').select('id').eq('id',addressId).single();expect(own.data?.id).toBe(addressId);});
- it('username-to-email resolution is not publicly accessible',async()=>{const {error}=await a.rpc('login_email_for_username',{p_username:username});expect(error).not.toBeNull();});
+ it('username-to-email resolution is not publicly accessible',async()=>{const {error}=await a.rpc('login_email_for_username',{_username:username});expect(error).not.toBeNull();});
  it('customers cannot upload avatars into another user folder',async()=>{const {error}=await b.storage.from('avatars').upload(`${idA}/forbidden.png`,new Uint8Array([1,2,3]),{contentType:'image/png'});expect(error).not.toBeNull();});
 });
