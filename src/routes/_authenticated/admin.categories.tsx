@@ -17,7 +17,7 @@ import type { Tables } from "@/integrations/supabase/types";
 import { slugify } from "@/lib/format";
 import { CategoryIcon } from "@/components/site/CategoryIcon";
 
-export const Route = createFileRoute("/_authenticated/admin/categories")({ head:()=>accountHead('Kelola kategori','Pengelolaan kategori produk Wiliy Mart.'), component: CategoriesAdmin });
+export const Route = createFileRoute("/_authenticated/admin/categories")({ staticData: { sitemap: false }, head:()=>accountHead('Kelola kategori','Pengelolaan kategori produk Wiliy Mart.'), component: CategoriesAdmin });
 
 type Cat = Tables<"categories">;
 type F = { id?: string; name: string; slug: string; description: string; sort_order: string };

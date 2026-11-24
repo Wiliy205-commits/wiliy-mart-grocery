@@ -13,6 +13,7 @@ type ProductSearch = { q?: string | undefined; category?: string | undefined; so
 const SORTS: Sort[] = ["newest", "price-asc", "price-desc", "popular"];
 
 export const Route = createFileRoute("/products/")({
+  staticData: { sitemap: true },
   validateSearch: (s: Record<string, unknown>): ProductSearch => ({
     q: typeof s["q"] === "string" && s["q"].trim() ? s["q"].slice(0, 80) : undefined,
     category: typeof s["category"] === "string" && s["category"] ? s["category"] : undefined,

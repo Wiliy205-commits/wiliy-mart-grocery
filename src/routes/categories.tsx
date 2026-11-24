@@ -5,6 +5,7 @@ import { CategoryIcon } from "@/components/site/CategoryIcon";
 import { categoriesQuery, productsQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/categories")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Kategori Produk — Wiliy Mart" },

@@ -7,6 +7,7 @@ import type { OrderConfirmation } from "@/lib/orders.functions";
 import { BANK_ACCOUNTS } from "@/lib/store-config";
 
 export const Route = createFileRoute("/order-success")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Pesanan Diterima — Wiliy Mart" },

@@ -8,6 +8,7 @@ import { categoriesQuery, productsQuery } from "@/lib/queries";
 import heroImg from "@/assets/hero-groceries.jpg";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Wiliy Mart — Belanja Mudah, Kebutuhan Terpenuhi." },

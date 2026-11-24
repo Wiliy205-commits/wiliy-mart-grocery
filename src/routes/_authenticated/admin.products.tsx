@@ -20,7 +20,7 @@ import type { Tables } from "@/integrations/supabase/types";
 import { formatRupiah, slugify } from "@/lib/format";
 import { StockBadge } from "@/components/site/StockBadge";
 
-export const Route = createFileRoute("/_authenticated/admin/products")({ head:()=>accountHead('Kelola produk','Pengelolaan produk dan stok Wiliy Mart.'), component: ProductsAdmin });
+export const Route = createFileRoute("/_authenticated/admin/products")({ staticData: { sitemap: false }, head:()=>accountHead('Kelola produk','Pengelolaan produk dan stok Wiliy Mart.'), component: ProductsAdmin });
 
 type Row = Tables<"products">;
 type FormState = {

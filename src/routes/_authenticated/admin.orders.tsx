@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 type Status = Database["public"]["Enums"]["order_status"];
 const STATUSES: Status[] = ["pending", "processing", "shipped", "completed", "cancelled"];
 
-export const Route = createFileRoute("/_authenticated/admin/orders")({ head:()=>accountHead('Kelola pesanan','Pengelolaan pesanan dan pembayaran Wiliy Mart.'), component: OrdersAdmin });
+export const Route = createFileRoute("/_authenticated/admin/orders")({ staticData: { sitemap: false }, head:()=>accountHead('Kelola pesanan','Pengelolaan pesanan dan pembayaran Wiliy Mart.'), component: OrdersAdmin });
 
 function OrdersAdmin() {
   const qc = useQueryClient();

@@ -5,7 +5,7 @@ import { AlertTriangle, Banknote, Package, ShoppingCart, Loader2 } from "lucide-
 import { supabase } from "@/integrations/supabase/client";
 import { formatRupiah, ORDER_STATUS_LABEL } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/admin/")({ head:()=>accountHead('Ringkasan admin','Ringkasan penjualan dan stok Wiliy Mart.'), component: Overview });
+export const Route = createFileRoute("/_authenticated/admin/")({ staticData: { sitemap: false }, head:()=>accountHead('Ringkasan admin','Ringkasan penjualan dan stok Wiliy Mart.'), component: Overview });
 
 function Overview() {
   const { data, isLoading, error } = useQuery({

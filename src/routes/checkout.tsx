@@ -18,6 +18,7 @@ import { useAuth } from "@/lib/auth";
 import { getAddresses } from "@/lib/account.functions";
 
 export const Route = createFileRoute("/checkout")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Checkout — Wiliy Mart" },

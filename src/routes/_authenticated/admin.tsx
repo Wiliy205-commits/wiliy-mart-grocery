@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/admin")({
+  staticData: { sitemap: false },
   beforeLoad: async ({ context }) => {
     const { data } = await supabase.rpc("has_role", { _user_id: context.user.id, _role: "admin" });
     return { isAdmin: data === true };

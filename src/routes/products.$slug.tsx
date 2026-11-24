@@ -11,6 +11,7 @@ import { useCart } from "@/lib/cart";
 import { formatRupiah } from "@/lib/format";
 
 export const Route = createFileRoute("/products/$slug")({
+  staticData: { sitemap: true },
   loader: async ({ context, params }) => {
     const product = await context.queryClient.ensureQueryData(productQuery(params.slug));
     if (!product) throw notFound();

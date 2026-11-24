@@ -79,6 +79,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
   head: () => ({
     // Replace these placeholders with the app's name and description when first building the app.
     // Each content route, / included, must still set its own head(). Never add og:image or
@@ -90,6 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Toko kelontong online Wiliy Mart: sembako, minuman, mi instan, camilan dan kebutuhan rumah tangga." },
       { name: "author", content: "Wiliy" },
       { name: "theme-color", content: "#172A46" },
+      { name: "google-site-verification", content: "GIIopoVREiSN4XNG6MWSVpMOn5HAFqFBnpdpJhZtOpw" },
       { property: "og:site_name", content: "Wiliy Mart" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

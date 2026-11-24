@@ -10,6 +10,7 @@ import { useCart } from "@/lib/cart";
 import { formatRupiah } from "@/lib/format";
 
 export const Route = createFileRoute("/cart")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Keranjang Belanja — Wiliy Mart" },
